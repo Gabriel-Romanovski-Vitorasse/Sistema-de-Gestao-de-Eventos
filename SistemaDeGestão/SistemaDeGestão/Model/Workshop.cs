@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SistemaDeGestão.Model
+﻿namespace SistemaDeGestão.Model
 {
-    internal class Workshop : Evento
+    public class Workshop : Evento
     {
+        public int CargaHoraria { get; set; }
+        public string Material { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,151 @@
+<UserControl x:Class="SistemaDeGestão.Views.EventoDetalhesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Secondary}" Content="Editar evento"
+                    VerticalAlignment="Center" Margin="24,0,0,0" Click="Editar_Click" />
+            <StackPanel>
+                <Button Style="{StaticResource Button.Bare}" HorizontalAlignment="Left" Click="Voltar_Click">
+                    <TextBlock x:Name="Trilha" Style="{StaticResource Text.Link}" xml:space="preserve">← Todos os eventos  /  EVT-001</TextBlock>
+                </Button>
+                <TextBlock x:Name="Titulo" Style="{StaticResource Text.PageTitle}" Margin="0,6,0,0" Text="Conecta 2026: futuros da educação" />
+                <TextBlock x:Name="Chamada" Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Do conhecimento à conexão. Dois dias para transformar o jeito de aprender." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Visão do evento -->
+        <DockPanel>
+            <!-- Inscrição e organização (coluna lateral) -->
+            <c:SpacedStackPanel DockPanel.Dock="Right" Width="372" Margin="24,0,0,0" Spacing="24">
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Seu próximo encontro começa aqui" />
+                        <TextBlock Style="{StaticResource Text.12}" Text="Inscrição individual" />
+                        <TextBlock x:Name="Preco" Style="{StaticResource Text.Base}" FontSize="36" LineHeight="52.2" FontWeight="SemiBold"
+                                   Text="R$ 249,00" />
+                        <StackPanel Orientation="Horizontal">
+                            <svgc:SvgViewbox Source="/Assets/Icons/users.svg" Width="18" Height="18" />
+                            <TextBlock x:Name="Vagas" Style="{StaticResource Text.13}" FontWeight="SemiBold" Foreground="{StaticResource Brush.Brand}"
+                                       Margin="8,0,0,0" VerticalAlignment="Center" Text="82 vagas disponíveis de 300" />
+                        </StackPanel>
+                        <!-- Ocupação: inscrições ativas sobre a capacidade -->
+                        <Grid x:Name="BarraTrilho" Height="6" SizeChanged="Barra_SizeChanged">
+                            <Border CornerRadius="3" Background="{StaticResource Brush.BrandSoft}" />
+                            <Border x:Name="BarraOcupacao" CornerRadius="3" Background="{StaticResource Brush.Brand}" HorizontalAlignment="Left" Width="220" />
+                        </Grid>
+                        <c:SpacedStackPanel Spacing="12">
+                            <TextBlock x:Name="Inicio" Style="{StaticResource Text.13}" Text="Início: 24/11/2026 às 09h" />
+                            <TextBlock x:Name="Termino" Style="{StaticResource Text.13}" Text="Término: 25/11/2026 às 18h" />
+                            <TextBlock x:Name="FormatoLocal" Style="{StaticResource Text.13}" Text="Formato presencial · São Paulo" />
+                        </c:SpacedStackPanel>
+                        <Button Style="{StaticResource Button.Primary}" Content="Inscrever participante" Click="Inscrever_Click" />
+                        <TextBlock Style="{StaticResource Text.11}" TextAlignment="Center"
+                                   Text="A vaga é confirmada após o pagamento." />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Organização" />
+                        <c:PersonChip x:Name="OrganizadorChip" Initials="CE" Title="Conecta Educação" Subtitle="Pessoa jurídica · ORG-001" />
+                        <TextBlock x:Name="OrganizadorEmail" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}" Text="contato@conecta.example" />
+                        <TextBlock x:Name="OrganizadorTelefone" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}" Text="(11) 0000-0000" />
+                        <Button Style="{StaticResource Button.Secondary}" Content="Entrar em contato" Click="Contato_Click" />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <c:Notice Text="Certificado digital disponível após a confirmação de presença no evento." />
+            </c:SpacedStackPanel>
+
+            <!-- Informações -->
+            <c:SpacedStackPanel Spacing="24">
+
+                <!-- Capa -->
+                <Grid Height="242">
+                    <Border CornerRadius="{StaticResource Radius.Card}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/Images/auditorio-do-encontro.png" Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Orientation="Horizontal" Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <c:StatusPill x:Name="PillTipo" Kind="Info" Text="Conferência" />
+                        <c:StatusPill x:Name="PillStatus" Kind="Success" Text="Publicado" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Grid>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Sobre o encontro" />
+                        <TextBlock x:Name="Descricao" Style="{StaticResource Text.14}"
+                                   Text="Uma conferência para educadores, pesquisadores e profissionais que acreditam no poder de aprender juntos. Explore novas práticas, compartilhe experiências e construa conexões para uma educação mais humana." />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="20" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock x:Name="InfoRotulo1" Style="{StaticResource Text.11}" Text="TEMA" />
+                                <TextBlock x:Name="InfoValor1" Style="{StaticResource Text.14}" FontWeight="SemiBold" Margin="0,4,0,0" Text="Inovação e aprendizagem" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock x:Name="InfoRotulo2" Style="{StaticResource Text.11}" Text="NÚMERO DE SESSÕES" />
+                                <TextBlock x:Name="InfoValor2" Style="{StaticResource Text.14}" FontWeight="SemiBold" Margin="0,4,0,0" Text="08 sessões" />
+                            </StackPanel>
+                        </Grid>
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader x:Name="PalestrantesTitulo" Title="Quem compartilha conhecimento" Subtitle="Palestrantes confirmados nesta conferência" />
+                        <!-- Dois chips por linha, 20 px entre colunas (mesmo layout do Figma) -->
+                        <ItemsControl x:Name="PalestrantesLista" Margin="0,0,-20,-12">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <c:PersonChip Margin="0,0,20,12" Initials="{Binding Iniciais}" Title="{Binding Nome}" Subtitle="{Binding Especialidade}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock x:Name="PalestrantesBio" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
+                                   Text="Marina é pesquisadora em educação e design de aprendizagem. Rafael conecta tecnologia, criatividade e formação de educadores." />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Onde vamos nos encontrar" />
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="10"
+                                    Background="{StaticResource Brush.BrandSoft}" Margin="0,0,18,0">
+                                <svgc:SvgViewbox Source="/Assets/Icons/map-pin.svg" Width="24" Height="24" />
+                            </Border>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Bare}" VerticalAlignment="Center"
+                                    Margin="18,0,0,0" Click="Localizacao_Click">
+                                <TextBlock Style="{StaticResource Text.Link}" Text="Ver localização ↗" />
+                            </Button>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock x:Name="LocalNome" Style="{StaticResource Text.14}" FontWeight="SemiBold" Text="Centro de Convenções Aurora" />
+                                <TextBlock x:Name="LocalEndereco" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}" Margin="0,3,0,0"
+                                           Text="Av. dos Encontros, 120 · Vila Nova · São Paulo, SP" />
+                                <TextBlock x:Name="LocalDetalhe" Style="{StaticResource Text.12}" Margin="0,3,0,0"
+                                           Text="LOC-001 · Capacidade do local: 500 pessoas" />
+                            </StackPanel>
+                        </DockPanel>
+                    </c:SpacedStackPanel>
+                </Border>
+            </c:SpacedStackPanel>
+        </DockPanel>
+    </c:SpacedStackPanel>
+</UserControl>

@@ -1,0 +1,112 @@
+<Window x:Class="SistemaDeGestão.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:s="clr-namespace:SistemaDeGestão.Services"
+        Title="elo · Sistema de Gestão de Eventos"
+        Width="1440" Height="900" MinWidth="1200" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Brush.Page}"
+        FontFamily="{StaticResource Font.Inter}"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Ideal">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ===== Navegação principal ===== -->
+        <Border Grid.Row="0" Background="{StaticResource Brush.Surface}"
+                BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="40,0">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Marca -->
+                <Button Grid.Column="0" Style="{StaticResource Button.Bare}" Click="Brand_Click"
+                        ToolTip="Ir para Eventos">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="32" Height="32" CornerRadius="10" Background="{StaticResource Brush.Brand}"
+                                VerticalAlignment="Center">
+                            <svgc:SvgViewbox Source="/Assets/Icons/calendar-days.svg" Width="20" Height="20" />
+                        </Border>
+                        <TextBlock Text="elo" Margin="10,0,0,0" FontSize="27" FontWeight="SemiBold"
+                                   Foreground="{StaticResource Brush.Ink}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Seções -->
+                <StackPanel x:Name="NavSections" Grid.Column="2" Orientation="Horizontal">
+                    <RadioButton Style="{StaticResource NavItem}" Content="Eventos" Tag="{x:Static s:AppPage.Eventos}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Participantes" Tag="{x:Static s:AppPage.Participantes}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Palestrantes" Tag="{x:Static s:AppPage.Palestrantes}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Organizadores" Tag="{x:Static s:AppPage.Organizadores}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Locais" Tag="{x:Static s:AppPage.Locais}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Inscrições" Tag="{x:Static s:AppPage.Inscricoes}" Click="Nav_Click" />
+                    <RadioButton Style="{StaticResource NavItem}" Content="Certificados" Tag="{x:Static s:AppPage.Certificados}" Click="Nav_Click" />
+                </StackPanel>
+
+                <!-- Conta -->
+                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource Button.Bare}" ToolTip="Notificações" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Source="/Assets/Icons/bell.svg" Width="18" Height="18" />
+                    </Button>
+                    <Button Style="{StaticResource Button.Bare}" Margin="12,0,0,0" ToolTip="Conta">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="34" Height="34" CornerRadius="17" Background="{StaticResource Brush.Avatar}">
+                                <TextBlock Text="LC" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Brush.Ink}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Luiza Costa" Margin="12,0,0,0" FontSize="13"
+                                       Foreground="{StaticResource Brush.Ink}" VerticalAlignment="Center" />
+                            <svgc:SvgViewbox Source="/Assets/Icons/chevron-down.svg" Width="14" Height="14"
+                                             Margin="12,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== Área rolável ===== -->
+        <ScrollViewer x:Name="PageScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Contexto do espaço -->
+                <DockPanel Grid.Row="0" Margin="48,14">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Border Width="6" Height="6" CornerRadius="3" Background="{StaticResource Brush.Success}"
+                                VerticalAlignment="Center" />
+                        <TextBlock Text="Área de gestão" Style="{StaticResource Text.12}" Margin="7,0,0,0" />
+                    </StackPanel>
+                    <TextBlock x:Name="Breadcrumb" Style="{StaticResource Text.12}" xml:space="preserve">Espaço de trabalho  /  Conecta Educação  /  Eventos</TextBlock>
+                </DockPanel>
+
+                <!-- Conteúdo da página -->
+                <ContentControl x:Name="PageHost" Grid.Row="1" Margin="48,20,48,36" MinHeight="864"
+                                Focusable="False" />
+
+                <!-- Rodapé -->
+                <Border Grid.Row="2" BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,1,0,0"
+                        Padding="48,20">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Right" Style="{StaticResource Text.12}" xml:space="preserve">Precisa de ajuda?  <Hyperlink Foreground="{StaticResource Brush.Muted}" TextDecorations="{x:Null}" Click="Support_Click">Central de suporte ↗</Hyperlink></TextBlock>
+                        <TextBlock Style="{StaticResource Text.12}" Text="elo · Conexões que viram encontros." />
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>

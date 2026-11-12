@@ -1,0 +1,209 @@
+<UserControl x:Class="SistemaDeGestão.Views.EventoCadastroView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <c:StatusPill x:Name="RascunhoPill" DockPanel.Dock="Right" Kind="Neutral" Text="Rascunho salvo às 10:42"
+                          Margin="24,0,0,0" />
+            <StackPanel>
+                <Button Style="{StaticResource Button.Bare}" HorizontalAlignment="Left" Click="Voltar_Click">
+                    <TextBlock x:Name="Trilha" Style="{StaticResource Text.Link}" xml:space="preserve">← Eventos  /  Editar EVT-001</TextBlock>
+                </Button>
+                <TextBlock Style="{StaticResource Text.PageTitle}" Margin="0,6,0,0" Text="Vamos preparar o próximo encontro." />
+                <TextBlock Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Defina os detalhes, conecte as pessoas e deixe tudo pronto para receber inscrições." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Formulário e resumo -->
+        <DockPanel>
+            <!-- Publicação -->
+            <c:SpacedStackPanel DockPanel.Dock="Right" Width="336" Margin="24,0,0,0" Spacing="20">
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Resumo do evento" />
+                        <c:StatusPill x:Name="ResumoTipo" Kind="Info" Text="Conferência" />
+                        <TextBlock x:Name="ResumoTitulo" Style="{StaticResource Text.Base}" FontSize="19" LineHeight="27.55"
+                                   FontWeight="SemiBold" Text="Conecta 2026: futuros da educação" />
+                        <TextBlock x:Name="ResumoPeriodo" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
+                                   Text="24–25 novembro de 2026" />
+                        <TextBlock x:Name="ResumoCapacidade" Style="{StaticResource Text.13}" Text="300 participantes · R$ 249,00" />
+                        <TextBlock x:Name="ResumoLocal" Style="{StaticResource Text.13}" Text="Centro de Convenções Aurora" />
+                        <TextBlock x:Name="ResumoPalestrantes" Style="{StaticResource Text.13}" Text="2 palestrantes selecionados" />
+                        <c:Notice x:Name="ResumoVagas" Text="82 vagas disponíveis. Este total é calculado a partir das inscrições confirmadas." />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Pronto para compartilhar?" />
+                        <TextBlock Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
+                                   Text="Confira os dados antes de publicar. Você poderá editar as informações depois." />
+                        <Button Style="{StaticResource Button.Primary}" Content="Salvar e publicar" Click="Publicar_Click" />
+                        <Button Style="{StaticResource Button.Secondary}" Content="Salvar rascunho" Click="Rascunho_Click" />
+                        <TextBlock Style="{StaticResource Text.12}" TextAlignment="Center" Text="* Campos obrigatórios" />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <c:Notice x:Name="AvisoLocal" Text="A capacidade do evento não pode ultrapassar as 500 pessoas permitidas pelo local." />
+            </c:SpacedStackPanel>
+
+            <!-- Formulário do evento -->
+            <c:SpacedStackPanel Spacing="20">
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Informações do evento" Subtitle="Dados compartilhados por conferências e workshops" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="ID do evento">
+                                <TextBox x:Name="CampoId" Style="{StaticResource Input}" IsReadOnly="True" Text="EVT-001 · gerado automaticamente" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Tipo de evento *">
+                                <ComboBox x:Name="Tipo" Style="{StaticResource Select}" SelectedIndex="0" SelectionChanged="Tipo_Changed">
+                                    <ComboBoxItem Content="Conferência" />
+                                    <ComboBoxItem Content="Workshop" />
+                                </ComboBox>
+                            </c:Field>
+                        </Grid>
+                        <c:Field Label="Título *">
+                            <TextBox x:Name="Titulo" Style="{StaticResource Input}" Text="Conecta 2026: futuros da educação"
+                                     TextChanged="Campo_Changed" />
+                        </c:Field>
+                        <c:Field Label="Descrição *">
+                            <TextBox x:Name="Descricao" Style="{StaticResource Input.Multiline}"
+                                     Text="Uma conferência para educadores, pesquisadores e profissionais que acreditam no poder de aprender juntos. Novas práticas, experiências e conexões para uma educação mais humana." />
+                        </c:Field>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Data e hora de início *">
+                                <TextBox x:Name="DataInicio" Style="{StaticResource Input}" Text="24/11/2026  ·  09:00"
+                                         Tag="Ex.: 24/11/2026  ·  09:00" TextChanged="Campo_Changed" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Data e hora de término *">
+                                <TextBox x:Name="DataFim" Style="{StaticResource Input}" Text="25/11/2026  ·  18:00"
+                                         Tag="Ex.: 25/11/2026  ·  18:00" TextChanged="Campo_Changed" />
+                            </c:Field>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Capacidade de participantes *">
+                                <TextBox x:Name="Capacidade" Style="{StaticResource Input}" Text="300" TextChanged="Campo_Changed" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Preço da inscrição *">
+                                <TextBox x:Name="Preco" Style="{StaticResource Input}" Text="R$ 249,00" Tag="Ex.: R$ 249,00 ou Gratuito"
+                                         TextChanged="Campo_Changed" />
+                            </c:Field>
+                        </Grid>
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Conferência" Subtitle="Campos específicos da modalidade selecionada" />
+                        <Grid x:Name="CamposConferencia">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Tema *">
+                                <TextBox x:Name="Tema" Style="{StaticResource Input}" Text="Inovação e aprendizagem" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Número de sessões *">
+                                <TextBox x:Name="Sessoes" Style="{StaticResource Input}" Text="8" />
+                            </c:Field>
+                        </Grid>
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Workshop" Subtitle="Campos desta modalidade · preenchidos somente ao selecionar Workshop" />
+                        <Grid x:Name="CamposWorkshop" IsEnabled="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Carga horária (horas)">
+                                <TextBox x:Name="CargaHoraria" Style="{StaticResource Input}" Tag="Ex.: 8 horas" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Material">
+                                <TextBox x:Name="Material" Style="{StaticResource Input}" Tag="Ex.: caderno de atividades e kit prático" />
+                            </c:Field>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Text.11}"
+                                   Text="Ao mudar a modalidade, os dados comuns e os vínculos do evento são mantidos." />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Local, organização e palestrantes" Subtitle="Escolha os cadastros que farão parte deste evento" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Local *">
+                                <ComboBox x:Name="LocalCombo" Style="{StaticResource Select}" DisplayMemberPath="Nome"
+                                          SelectionChanged="Campo_Changed" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Organizador *">
+                                <ComboBox x:Name="OrganizadorCombo" Style="{StaticResource Select}" DisplayMemberPath="Rotulo" />
+                            </c:Field>
+                        </Grid>
+                        <c:Field Label="Palestrantes *">
+                            <!-- Lista com caixas de seleção: permite escolher vários palestrantes -->
+                            <Border Background="{StaticResource Brush.Surface}" BorderBrush="{StaticResource Brush.Border}"
+                                    BorderThickness="1" CornerRadius="{StaticResource Radius.Control}" Padding="12,10">
+                                <ScrollViewer MaxHeight="168" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="PalestrantesOpcoes">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Margin="0,4" VerticalContentAlignment="Center" IsChecked="{Binding Selecionado}"
+                                                          Checked="Palestrante_Changed" Unchecked="Palestrante_Changed">
+                                                    <TextBlock Style="{StaticResource Text.13}" Margin="6,0,0,0">
+                                                        <Run Text="{Binding Item.Nome, Mode=OneWay}" />
+                                                        <Run Text="·" Foreground="{StaticResource Brush.Muted}" />
+                                                        <Run Text="{Binding Item.Especialidade, Mode=OneWay}" Foreground="{StaticResource Brush.Muted}" />
+                                                    </TextBlock>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+                        </c:Field>
+                        <!-- Dois chips por linha, 16 px entre colunas (mesmo layout do Figma) -->
+                        <ItemsControl x:Name="PalestrantesChips" Margin="0,0,-16,-12">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <c:PersonChip Margin="0,0,16,12" Initials="{Binding Iniciais}" Title="{Binding Nome}" Subtitle="{Binding Especialidade}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </c:SpacedStackPanel>
+                </Border>
+            </c:SpacedStackPanel>
+        </DockPanel>
+
+        <!-- Ações do formulário -->
+        <DockPanel>
+            <Button DockPanel.Dock="Left" Style="{StaticResource Button.Secondary}" Content="Cancelar edição" Click="Voltar_Click" />
+            <TextBlock Style="{StaticResource Text.12}" HorizontalAlignment="Right" VerticalAlignment="Top"
+                       Text="Suas alterações só ficam visíveis após a publicação." />
+        </DockPanel>
+    </c:SpacedStackPanel>
+</UserControl>

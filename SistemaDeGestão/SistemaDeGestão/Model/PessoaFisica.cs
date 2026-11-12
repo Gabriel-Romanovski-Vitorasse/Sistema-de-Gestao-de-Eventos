@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SistemaDeGestão.Model
+﻿namespace SistemaDeGestão.Model
 {
-    internal class PessoaFisica : Organizador
+    public class PessoaFisica : Organizador
     {
+        public string Cpf { get; set; } = string.Empty;
     }
 }

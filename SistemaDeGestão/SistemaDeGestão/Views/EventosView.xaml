@@ -1,0 +1,145 @@
+<UserControl x:Class="SistemaDeGestão.Views.EventosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Criar evento"
+                    VerticalAlignment="Center" Margin="24,0,0,0" Click="CriarEvento_Click" />
+            <StackPanel>
+                <TextBlock Style="{StaticResource Text.PageTitle}" Text="Encontros que conectam." />
+                <TextBlock Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Crie, organize e acompanhe cada experiência em um só lugar." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Visão geral -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition /><ColumnDefinition Width="16" />
+                <ColumnDefinition /><ColumnDefinition Width="16" />
+                <ColumnDefinition /><ColumnDefinition Width="16" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <c:StatCard x:Name="StatEventos" Grid.Column="0" Label="Eventos cadastrados" Value="06" Caption="3 conferências · 3 workshops" />
+            <c:StatCard x:Name="StatConfirmadas" Grid.Column="2" Label="Inscrições confirmadas" Value="476" Caption="Em todos os eventos" />
+            <c:StatCard x:Name="StatVagas" Grid.Column="4" Label="Vagas disponíveis" Value="118" Caption="Próximas experiências" />
+            <c:StatCard x:Name="StatReceita" Grid.Column="6" Label="Receita confirmada" Value="R$ 62.922" Caption="Valores de inscrições pagas" />
+        </Grid>
+
+        <!-- Próximo encontro -->
+        <Button x:Name="Destaque" Style="{StaticResource Button.Bare}" Click="VerEvento_Click">
+            <Border Height="116" CornerRadius="{StaticResource Radius.Card}" Background="{StaticResource Brush.BrandDark}">
+                <DockPanel>
+                    <Border DockPanel.Dock="Left" Width="190" CornerRadius="12,0,0,12">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/Images/conferencia-em-destaque.png" Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="24,0,28,0">
+                        <TextBlock Text="Ver evento" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                        <svgc:SvgViewbox Source="/Assets/Icons/arrow-up-right.svg" Width="18" Height="18" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" Margin="24,0,0,0">
+                        <TextBlock x:Name="DestaqueData" Style="{StaticResource Text.11}" FontWeight="SemiBold" Foreground="{StaticResource Brush.BrandOnDark}"
+                                   Text="PRÓXIMO ENCONTRO · 24 NOVEMBRO" />
+                        <TextBlock x:Name="DestaqueTitulo" Style="{StaticResource Text.Base}" FontSize="20" LineHeight="29" FontWeight="SemiBold"
+                                   Foreground="White" Margin="0,5,0,0" Text="Conecta 2026: futuros da educação" />
+                        <TextBlock x:Name="DestaqueTexto" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.BrandOnDarkMuted}" Margin="0,5,0,0"
+                                   Text="218 pessoas já confirmaram presença. Vamos preparar um grande encontro?" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Button>
+
+        <!-- Visualização: abas e ordenação -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Bare}" Click="Ordenar_Click" VerticalAlignment="Top">
+                <TextBlock x:Name="OrdenarTexto" Style="{StaticResource Text.12}" Text="Ordenar por: data do evento ↓" />
+            </Button>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="TabTodos" Style="{StaticResource TextTab}" GroupName="TipoEvento" IsChecked="True"
+                             Tag="" Checked="Tab_Checked" />
+                <RadioButton x:Name="TabConferencias" Style="{StaticResource TextTab}" GroupName="TipoEvento"
+                             Tag="Conferência" Checked="Tab_Checked" />
+                <RadioButton x:Name="TabWorkshops" Style="{StaticResource TextTab}" GroupName="TipoEvento"
+                             Tag="Workshop" Checked="Tab_Checked" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Busca e filtros -->
+        <DockPanel>
+            <ComboBox x:Name="FiltroStatus" DockPanel.Dock="Right" Style="{StaticResource Select.Filter}"
+                      Margin="12,0,0,0" SelectedIndex="0" SelectionChanged="Filtro_Changed">
+                <ComboBoxItem Content="Todos os status" />
+                <ComboBoxItem Content="Publicado" />
+                <ComboBoxItem Content="Esgotado" />
+                <ComboBoxItem Content="Rascunho" />
+                <ComboBoxItem Content="Encerrado" />
+            </ComboBox>
+            <TextBox x:Name="Busca" Style="{StaticResource SearchBox}" Tag="Buscar por título, local ou ID do evento"
+                     TextChanged="Busca_Changed" />
+        </DockPanel>
+
+        <!-- Tabela -->
+        <Border Style="{StaticResource Table}">
+            <StackPanel>
+                <Border Style="{StaticResource Table.Header}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,3,0,0">
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="370" Text="EVENTO" />
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="130" Text="TIPO" />
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="150" Text="DATA" />
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="120" Text="VAGAS LIVRES" />
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="120" Text="INSCRIÇÃO" />
+                        <TextBlock Style="{StaticResource Text.TableHeader}" Width="120" Text="STATUS" />
+                    </StackPanel>
+                </Border>
+                <ItemsControl x:Name="Tabela">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource Table.Row}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel Width="370" Margin="0,0,12,0" VerticalAlignment="Center">
+                                        <TextBlock Style="{StaticResource Text.13}" FontWeight="SemiBold" Text="{Binding Titulo}" />
+                                        <TextBlock Style="{StaticResource Text.11}" Margin="0,3,0,0" Text="{Binding Subtitulo}" />
+                                    </StackPanel>
+                                    <TextBlock Style="{StaticResource Cell}" Width="130" Text="{Binding Tipo}" />
+                                    <TextBlock Style="{StaticResource Cell}" Width="150" Text="{Binding Data}" />
+                                    <TextBlock Style="{StaticResource Cell}" Width="120" Text="{Binding Vagas}" />
+                                    <TextBlock Style="{StaticResource Cell}" Width="120" Text="{Binding Inscricao}" />
+                                    <Grid Width="120" Margin="0,0,12,0" VerticalAlignment="Center">
+                                        <c:StatusPill Text="{Binding Status}" Kind="{Binding StatusKind}" />
+                                    </Grid>
+                                    <Button Width="100" Style="{StaticResource Button.Bare}" HorizontalContentAlignment="Left"
+                                            VerticalAlignment="Center" Click="Detalhes_Click">
+                                        <TextBlock Style="{StaticResource Text.Link}" Text="Detalhes →" />
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock x:Name="Vazio" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
+                           Margin="16,24" Visibility="Collapsed" Text="Nenhum evento encontrado com esses filtros." />
+            </StackPanel>
+        </Border>
+
+        <!-- Paginação -->
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <svgc:SvgViewbox Source="/Assets/Icons/chevron-left.svg" Width="16" Height="16" VerticalAlignment="Center" />
+                <Border Style="{StaticResource PageCurrent}" Margin="10,0">
+                    <TextBlock Text="1" FontSize="12" Foreground="{StaticResource Brush.Brand}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <svgc:SvgViewbox Source="/Assets/Icons/chevron-right.svg" Width="16" Height="16" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock x:Name="Contagem" Style="{StaticResource Text.12}" VerticalAlignment="Center" />
+        </DockPanel>
+
+    </c:SpacedStackPanel>
+</UserControl>

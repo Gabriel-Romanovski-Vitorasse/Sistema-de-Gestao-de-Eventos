@@ -1,0 +1,159 @@
+<UserControl x:Class="SistemaDeGestão.Views.OrganizadoresView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Novo organizador"
+                    VerticalAlignment="Center" Margin="24,0,0,0" Click="Novo_Click" />
+            <StackPanel>
+                <TextBlock Style="{StaticResource Text.PageTitle}" Text="Quem faz cada encontro acontecer." />
+                <TextBlock Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Gerencie pessoas e organizações responsáveis pelos seus eventos." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Resumo -->
+        <StackPanel Orientation="Horizontal">
+            <c:StatusPill x:Name="ResumoTotal" Kind="Info" Text="12 organizadores" />
+            <c:StatusPill x:Name="ResumoPJ" Kind="Neutral" Text="7 pessoas jurídicas" Margin="12,0,0,0" />
+            <c:StatusPill x:Name="ResumoPF" Kind="Neutral" Text="5 pessoas físicas" Margin="12,0,0,0" />
+        </StackPanel>
+
+        <!-- Listagem e cadastro -->
+        <DockPanel>
+            <!-- Cadastro do organizador -->
+            <Border DockPanel.Dock="Right" Width="440" Margin="24,0,0,0" VerticalAlignment="Top" Style="{StaticResource Card}">
+                <c:SpacedStackPanel Spacing="20">
+                    <c:SectionHeader x:Name="FormTitulo" Title="Cadastro do organizador" Subtitle="Editando Conecta Educação" />
+                    <c:Field Label="ID">
+                        <TextBox x:Name="CampoId" Style="{StaticResource Input}" IsReadOnly="True" />
+                    </c:Field>
+                    <c:Field Label="Nome de exibição *">
+                        <TextBox x:Name="CampoNome" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field Label="E-mail *">
+                        <TextBox x:Name="CampoEmail" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field Label="Telefone *">
+                        <TextBox x:Name="CampoTelefone" Style="{StaticResource Input}" Tag="(11) 0000-0000" />
+                    </c:Field>
+
+                    <!-- Tipo de organizador -->
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Text.Label}" Text="Tipo de organizador *" Margin="0,0,0,9" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="8" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="OpcaoPF" Grid.Column="0" Style="{StaticResource OptionCard}" GroupName="TipoOrg"
+                                         Content="Pessoa Física" Checked="Tipo_Checked" />
+                            <RadioButton x:Name="OpcaoPJ" Grid.Column="2" Style="{StaticResource OptionCard}" GroupName="TipoOrg"
+                                         Content="Pessoa Jurídica" Checked="Tipo_Checked" />
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Dados do tipo selecionado -->
+                    <c:SpacedStackPanel Spacing="14">
+                        <TextBlock x:Name="TituloPrincipal" Style="{StaticResource Text.Label}" Foreground="{StaticResource Brush.Brand}"
+                                   Text="PESSOA JURÍDICA" />
+                        <c:SpacedStackPanel x:Name="CamposPrincipais" Spacing="14" />
+                    </c:SpacedStackPanel>
+
+                    <!-- Dados do tipo alternativo -->
+                    <Border Style="{StaticResource AltBlock}">
+                        <c:SpacedStackPanel Spacing="12">
+                            <TextBlock x:Name="TituloAlternativo" Style="{StaticResource Text.Label}" Foreground="{StaticResource Brush.Muted}"
+                                       Text="PESSOA FÍSICA · opção alternativa" />
+                            <c:SpacedStackPanel x:Name="CamposAlternativos" Spacing="12" IsEnabled="False" />
+                            <TextBlock x:Name="DicaAlternativa" Style="{StaticResource Text.11}" />
+                        </c:SpacedStackPanel>
+                    </Border>
+
+                    <TextBlock Style="{StaticResource Text.11}" Text="CPF e CNPJ fictícios, usados apenas nesta demonstração." />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource Button.Secondary}" Content="Cancelar" Click="Cancelar_Click" />
+                        <Button Style="{StaticResource Button.Primary}" Content="Salvar cadastro" Margin="12,0,0,0" Click="Salvar_Click" />
+                    </StackPanel>
+                    <TextBlock x:Name="Erro" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.Danger}"
+                               Visibility="Collapsed" />
+                </c:SpacedStackPanel>
+            </Border>
+
+            <!-- Organizadores cadastrados -->
+            <c:SpacedStackPanel Spacing="18">
+                <DockPanel>
+                    <ComboBox x:Name="FiltroTipo" DockPanel.Dock="Right" Style="{StaticResource Select.Filter}"
+                              Margin="12,0,0,0" SelectedIndex="0" SelectionChanged="Filtro_Changed">
+                        <ComboBoxItem Content="Todos os tipos" />
+                        <ComboBoxItem Content="Pessoa jurídica" />
+                        <ComboBoxItem Content="Pessoa física" />
+                    </ComboBox>
+                    <TextBox x:Name="Busca" Style="{StaticResource SearchBox}" Tag="Buscar por nome, CPF ou CNPJ"
+                             TextChanged="Busca_Changed" />
+                </DockPanel>
+
+                <Border Style="{StaticResource Table}">
+                    <StackPanel>
+                        <Border Style="{StaticResource Table.Header}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,3,0,0">
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="265" Text="ORGANIZADOR" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="85" Text="ID" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="145" Text="TIPO" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="95" Text="VÍNCULOS" />
+                            </StackPanel>
+                        </Border>
+                        <ListBox x:Name="Lista" Style="{StaticResource Table.List}" SelectionChanged="Lista_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Width="265" Margin="0,0,12,0" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource Text.13}" FontWeight="SemiBold" Text="{Binding Nome}" />
+                                            <TextBlock Style="{StaticResource Text.11}" Margin="0,4,0,0" Text="{Binding Email}" />
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource Cell}" Width="85" Text="{Binding Id}" />
+                                        <Grid Width="145" Margin="0,0,12,0" VerticalAlignment="Center">
+                                            <c:StatusPill Kind="Neutral" Text="{Binding Tipo}" />
+                                        </Grid>
+                                        <TextBlock Style="{StaticResource Cell}" Width="95" Text="{Binding VinculosTexto}" />
+                                        <TextBlock Style="{StaticResource Text.Link}" Width="115" VerticalAlignment="Center" Text="Editar cadastro" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+
+                <c:Pager x:Name="Paginacao" />
+
+                <!-- Eventos do organizador selecionado -->
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader x:Name="EventosTitulo" Title="Eventos de Conecta Educação"
+                                         Subtitle="Organizador selecionado · ORG-001" />
+                        <ItemsControl x:Name="EventosLista">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <c:SpacedStackPanel Spacing="20" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <c:StatusPill DockPanel.Dock="Right" Kind="{Binding Kind}" Text="{Binding Status}" />
+                                        <TextBlock Style="{StaticResource Text.13}" VerticalAlignment="Center" Text="{Binding Evento}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <c:Notice Text="Cada evento tem um organizador responsável. O mesmo organizador pode conduzir vários eventos." />
+            </c:SpacedStackPanel>
+        </DockPanel>
+    </c:SpacedStackPanel>
+</UserControl>

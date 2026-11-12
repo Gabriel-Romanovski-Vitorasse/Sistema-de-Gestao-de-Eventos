@@ -1,0 +1,166 @@
+<UserControl x:Class="SistemaDeGestão.Views.InscricoesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Nova inscrição"
+                    VerticalAlignment="Center" Margin="24,0,0,0" Click="Nova_Click" />
+            <StackPanel>
+                <TextBlock Style="{StaticResource Text.PageTitle}" Text="Da inscrição ao encontro." />
+                <TextBlock Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Acompanhe participantes, pagamentos e confirmações sem perder nenhum detalhe." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Indicadores -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition /><ColumnDefinition Width="16" />
+                <ColumnDefinition /><ColumnDefinition Width="16" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <c:StatCard x:Name="IndConfirmadas" Grid.Column="0" Label="Confirmadas" Caption="Pagamento recebido ou evento gratuito" />
+            <c:StatCard x:Name="IndPendentes" Grid.Column="2" Label="Aguardando pagamento" />
+            <c:StatCard x:Name="IndCanceladas" Grid.Column="4" Label="Canceladas" Caption="Vagas liberadas automaticamente" />
+        </Grid>
+
+        <!-- Inscrições e pagamento -->
+        <DockPanel>
+            <!-- Dados e pagamento -->
+            <c:SpacedStackPanel DockPanel.Dock="Right" Width="420" Margin="24,0,0,0" Spacing="20">
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader x:Name="DadosTitulo" Title="Dados da inscrição" />
+                        <c:StatusPill x:Name="DadosStatus" />
+                        <c:Field Label="Participante *">
+                            <ComboBox x:Name="CampoParticipante" Style="{StaticResource Select}" DisplayMemberPath="Rotulo"
+                                      SelectionChanged="Participante_Changed" />
+                        </c:Field>
+                        <c:Field Label="Evento *">
+                            <ComboBox x:Name="CampoEvento" Style="{StaticResource Select}" DisplayMemberPath="Rotulo"
+                                      SelectionChanged="Evento_Changed" />
+                        </c:Field>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="12" /><ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <c:Field Grid.Column="0" Label="Data de inscrição">
+                                <TextBox x:Name="CampoData" Style="{StaticResource Input}" IsReadOnly="True" />
+                            </c:Field>
+                            <c:Field Grid.Column="2" Label="Status atual">
+                                <TextBox x:Name="CampoStatus" Style="{StaticResource Input}" IsReadOnly="True" />
+                            </c:Field>
+                        </Grid>
+                        <TextBlock x:Name="DadosEvento" Style="{StaticResource Text.12}" />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Pagamento da inscrição" />
+                        <DockPanel>
+                            <TextBlock x:Name="ValorTotal" DockPanel.Dock="Right" Style="{StaticResource Text.Base}" FontSize="28"
+                                       LineHeight="40.6" FontWeight="SemiBold" TextWrapping="NoWrap" />
+                            <TextBlock Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
+                                       VerticalAlignment="Center" Text="Valor total" />
+                        </DockPanel>
+                        <c:Field Label="Forma de pagamento">
+                            <ComboBox x:Name="CampoForma" Style="{StaticResource Select}" SelectedIndex="0">
+                                <ComboBoxItem Content="Pix · confirmação instantânea" />
+                                <ComboBoxItem Content="Cartão de crédito · até 3x" />
+                                <ComboBoxItem Content="Boleto · até 2 dias úteis" />
+                            </ComboBox>
+                        </c:Field>
+                        <c:Notice x:Name="AvisoPagamento"
+                                  Text="Ao confirmar o pagamento, a inscrição passa para Confirmada e a vaga é garantida." />
+                        <Button x:Name="BotaoPagar" Style="{StaticResource Button.Primary}" Click="Pagar_Click" />
+                        <Button x:Name="BotaoCancelar" Style="{StaticResource Button.Danger}" Content="Cancelar inscrição"
+                                Click="Cancelar_Click" />
+                        <TextBlock Style="{StaticResource Text.11}" TextAlignment="Center"
+                                   Text="O cancelamento libera a vaga para outro participante." />
+                    </c:SpacedStackPanel>
+                </Border>
+            </c:SpacedStackPanel>
+
+            <!-- Lista de inscrições -->
+            <c:SpacedStackPanel Spacing="18">
+                <DockPanel>
+                    <ComboBox x:Name="FiltroStatus" DockPanel.Dock="Right" Style="{StaticResource Select.Filter}"
+                              Margin="12,0,0,0" SelectedIndex="0" SelectionChanged="Filtro_Changed">
+                        <ComboBoxItem Content="Todos os status" />
+                        <ComboBoxItem Content="Pendente" />
+                        <ComboBoxItem Content="Confirmada" />
+                        <ComboBoxItem Content="Cancelada" />
+                    </ComboBox>
+                    <TextBox x:Name="Busca" Style="{StaticResource SearchBox}" Tag="Buscar participante, evento ou inscrição"
+                             TextChanged="Busca_Changed" />
+                </DockPanel>
+
+                <Border Style="{StaticResource Table}">
+                    <StackPanel>
+                        <Border Style="{StaticResource Table.Header}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,3,0,0">
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="210" Text="INSCRIÇÃO / PARTICIPANTE" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="175" Text="EVENTO" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="100" Text="DATA" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="90" Text="VALOR" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="110" Text="STATUS" />
+                            </StackPanel>
+                        </Border>
+                        <ListBox x:Name="Lista" Style="{StaticResource Table.List}" SelectionChanged="Lista_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Width="210" Margin="0,0,12,0" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource Text.13}" FontWeight="SemiBold" Text="{Binding Participante}" />
+                                            <TextBlock Style="{StaticResource Text.11}" Margin="0,4,0,0" Text="{Binding Id}" />
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource Cell}" Width="175" Text="{Binding Evento}" />
+                                        <TextBlock Style="{StaticResource Cell}" Width="100" Text="{Binding DataTexto}" />
+                                        <TextBlock Style="{StaticResource Cell}" Width="90" Text="{Binding ValorTexto}" />
+                                        <Grid Width="110" Margin="0,0,12,0" VerticalAlignment="Center">
+                                            <c:StatusPill Kind="{Binding StatusKind}" Text="{Binding Status}" />
+                                        </Grid>
+                                        <TextBlock Style="{StaticResource Text.Link}" Width="65" VerticalAlignment="Center" Text="Ver →" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+
+                <c:Pager x:Name="Paginacao" />
+
+                <!-- Legenda de status -->
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Cada status, um próximo passo" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition /><ColumnDefinition Width="20" />
+                                <ColumnDefinition /><ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <c:StatusPill Kind="Warning" Text="Pendente" />
+                                <TextBlock Style="{StaticResource Text.12}" Margin="0,8,0,0" Text="Aguardando pagamento para confirmar a vaga." />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <c:StatusPill Kind="Success" Text="Confirmada" />
+                                <TextBlock Style="{StaticResource Text.12}" Margin="0,8,0,0" Text="Pagamento aprovado. Tudo pronto para o encontro." />
+                            </StackPanel>
+                            <StackPanel Grid.Column="4">
+                                <c:StatusPill Kind="Danger" Text="Cancelada" />
+                                <TextBlock Style="{StaticResource Text.12}" Margin="0,8,0,0" Text="Inscrição encerrada, sem reserva de vaga." />
+                            </StackPanel>
+                        </Grid>
+                    </c:SpacedStackPanel>
+                </Border>
+            </c:SpacedStackPanel>
+        </DockPanel>
+    </c:SpacedStackPanel>
+</UserControl>
