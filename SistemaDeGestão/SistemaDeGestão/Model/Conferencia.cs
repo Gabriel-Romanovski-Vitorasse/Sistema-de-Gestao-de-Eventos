@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SistemaDeGestão.Model
+﻿namespace SistemaDeGestão.Model
 {
-    internal class Conferencia : Evento
+    public class Conferencia : Evento
     {
+        public string Tema { get; set; } = string.Empty;
+        public int NumeroSessoes { get; set; }
     }
 }

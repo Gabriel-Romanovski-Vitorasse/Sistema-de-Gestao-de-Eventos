@@ -1,0 +1,118 @@
+<UserControl x:Class="SistemaDeGestão.Views.LocaisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:SistemaDeGestão.Controls">
+
+    <c:SpacedStackPanel Spacing="24">
+
+        <!-- Cabeçalho da página -->
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Novo local"
+                    VerticalAlignment="Center" Margin="24,0,0,0" Click="Novo_Click" />
+            <StackPanel>
+                <TextBlock Style="{StaticResource Text.PageTitle}" Text="O lugar certo para boas conexões." />
+                <TextBlock Style="{StaticResource Text.14}" Foreground="{StaticResource Brush.Muted}" Margin="0,6,0,0"
+                           Text="Cadastre espaços e organize a capacidade de cada experiência presencial." />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Resumo -->
+        <StackPanel Orientation="Horizontal">
+            <c:StatusPill x:Name="ResumoTotal" Kind="Info" Text="" />
+            <!-- Oculto: Local não tem campo de cidade (endereço completo fica em Endereco) -->
+            <c:StatusPill Kind="Neutral" Text="São Paulo, SP" Margin="12,0,0,0" Visibility="Collapsed" />
+        </StackPanel>
+
+        <!-- Locais e formulário -->
+        <DockPanel>
+            <!-- Local selecionado -->
+            <c:SpacedStackPanel DockPanel.Dock="Right" Width="420" Margin="24,0,0,0" Spacing="20">
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader x:Name="FormTitulo" Title="Cadastro do local" Subtitle="Editando Centro de Convenções Aurora" />
+                        <c:Field Label="ID">
+                            <TextBox x:Name="CampoId" Style="{StaticResource Input}" IsReadOnly="True" />
+                        </c:Field>
+                        <c:Field Label="Nome *">
+                            <TextBox x:Name="CampoNome" Style="{StaticResource Input}" />
+                        </c:Field>
+                        <c:Field Label="Endereço completo *">
+                            <TextBox x:Name="CampoEndereco" Style="{StaticResource Input.Multiline}" />
+                        </c:Field>
+                        <c:Field Label="Capacidade (pessoas) *">
+                            <TextBox x:Name="CampoCapacidade" Style="{StaticResource Input}" PreviewTextInput="SoNumeros" />
+                        </c:Field>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource Button.Secondary}" Content="Cancelar" Click="Cancelar_Click" />
+                            <Button Style="{StaticResource Button.Primary}" Content="Salvar cadastro" Margin="12,0,0,0" Click="Salvar_Click" />
+                        </StackPanel>
+                        <TextBlock x:Name="Erro" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.Danger}"
+                                   Visibility="Collapsed" />
+                    </c:SpacedStackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <c:SpacedStackPanel Spacing="20">
+                        <c:SectionHeader Title="Um espaço para grandes ideias" />
+                        <Border x:Name="Foto" Height="156" CornerRadius="{StaticResource Radius.Control}">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Assets/Images/interior-do-local.png" Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
+                        <TextBlock x:Name="DestaqueNome" Style="{StaticResource Text.13}" FontWeight="SemiBold" />
+                        <TextBlock x:Name="DestaqueProximo" Style="{StaticResource Text.12}" />
+                        <c:StatusPill x:Name="DestaqueOcupacao" Kind="Info" />
+                    </c:SpacedStackPanel>
+                </Border>
+            </c:SpacedStackPanel>
+
+            <!-- Listagem -->
+            <c:SpacedStackPanel Spacing="18">
+                <DockPanel>
+                    <ComboBox x:Name="FiltroCapacidade" DockPanel.Dock="Right" Style="{StaticResource Select.Filter}"
+                              Margin="12,0,0,0" SelectedIndex="0" SelectionChanged="Filtro_Changed">
+                        <ComboBoxItem Content="Todas as capacidades" />
+                        <ComboBoxItem Content="Até 50 pessoas" />
+                        <ComboBoxItem Content="51 a 200 pessoas" />
+                        <ComboBoxItem Content="Mais de 200 pessoas" />
+                    </ComboBox>
+                    <TextBox x:Name="Busca" Style="{StaticResource SearchBox}" Tag="Buscar por nome ou endereço"
+                             TextChanged="Busca_Changed" />
+                </DockPanel>
+
+                <Border Style="{StaticResource Table}">
+                    <StackPanel>
+                        <Border Style="{StaticResource Table.Header}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,3,0,0">
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="310" Text="LOCAL / ENDEREÇO" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="90" Text="ID" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="110" Text="CAPACIDADE" />
+                                <TextBlock Style="{StaticResource Text.TableHeader}" Width="95" Text="VÍNCULOS" />
+                            </StackPanel>
+                        </Border>
+                        <ListBox x:Name="Lista" Style="{StaticResource Table.List}" SelectionChanged="Lista_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Width="310" Margin="0,0,12,0" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource Text.13}" FontWeight="SemiBold" Text="{Binding Nome}" />
+                                            <TextBlock Style="{StaticResource Text.11}" Margin="0,4,0,0" Text="{Binding Endereco}" />
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource Cell}" Width="90" Text="{Binding Id}" />
+                                        <TextBlock Style="{StaticResource Cell}" Width="110" Text="{Binding CapacidadeTexto}" />
+                                        <TextBlock Style="{StaticResource Cell}" Width="95" Text="{Binding VinculosTexto}" />
+                                        <TextBlock Style="{StaticResource Text.Link}" Width="95" VerticalAlignment="Center" Text="Editar" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+
+                <c:Pager x:Name="Paginacao" />
+
+                <c:Notice Text="Ao criar um evento, a capacidade escolhida deve respeitar o limite do local selecionado." />
+            </c:SpacedStackPanel>
+        </DockPanel>
+    </c:SpacedStackPanel>
+</UserControl>

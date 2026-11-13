@@ -1,0 +1,13 @@
+# Saídas de compilação
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Sistema operacional
+Thumbs.db
+.DS_Store

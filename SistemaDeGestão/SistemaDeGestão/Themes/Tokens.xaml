@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Tipografia (Inter embutida no projeto) -->
+    <FontFamily x:Key="Font.Inter">pack://application:,,,/Fonts/#Inter</FontFamily>
+
+    <!-- Cores extraídas do Figma -->
+    <Color x:Key="Color.Page">#F5F8F9</Color>
+    <Color x:Key="Color.Surface">#FFFFFF</Color>
+    <Color x:Key="Color.SurfaceMuted">#F8FAFB</Color>
+    <Color x:Key="Color.Border">#E1E9EB</Color>
+    <Color x:Key="Color.Ink">#20363D</Color>
+    <Color x:Key="Color.Muted">#6C7E84</Color>
+    <Color x:Key="Color.Brand">#087E8B</Color>
+    <Color x:Key="Color.BrandDark">#075B66</Color>
+    <Color x:Key="Color.BrandSoft">#E7F4F4</Color>
+    <Color x:Key="Color.BrandOnDark">#BAE3E6</Color>
+    <Color x:Key="Color.BrandOnDarkMuted">#D1ECEE</Color>
+    <Color x:Key="Color.Avatar">#F0EDF8</Color>
+    <Color x:Key="Color.Success">#23745B</Color>
+    <Color x:Key="Color.SuccessSoft">#EAF5EF</Color>
+    <Color x:Key="Color.Warning">#956510</Color>
+    <Color x:Key="Color.WarningSoft">#FFF5DF</Color>
+    <Color x:Key="Color.Danger">#AD4B47</Color>
+    <Color x:Key="Color.DangerSoft">#FCEFED</Color>
+
+    <SolidColorBrush x:Key="Brush.Page" Color="{StaticResource Color.Page}" />
+    <SolidColorBrush x:Key="Brush.Surface" Color="{StaticResource Color.Surface}" />
+    <SolidColorBrush x:Key="Brush.SurfaceMuted" Color="{StaticResource Color.SurfaceMuted}" />
+    <SolidColorBrush x:Key="Brush.Border" Color="{StaticResource Color.Border}" />
+    <SolidColorBrush x:Key="Brush.Ink" Color="{StaticResource Color.Ink}" />
+    <SolidColorBrush x:Key="Brush.Muted" Color="{StaticResource Color.Muted}" />
+    <SolidColorBrush x:Key="Brush.Brand" Color="{StaticResource Color.Brand}" />
+    <SolidColorBrush x:Key="Brush.BrandDark" Color="{StaticResource Color.BrandDark}" />
+    <SolidColorBrush x:Key="Brush.BrandSoft" Color="{StaticResource Color.BrandSoft}" />
+    <SolidColorBrush x:Key="Brush.BrandOnDark" Color="{StaticResource Color.BrandOnDark}" />
+    <SolidColorBrush x:Key="Brush.BrandOnDarkMuted" Color="{StaticResource Color.BrandOnDarkMuted}" />
+    <SolidColorBrush x:Key="Brush.Avatar" Color="{StaticResource Color.Avatar}" />
+    <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}" />
+    <SolidColorBrush x:Key="Brush.SuccessSoft" Color="{StaticResource Color.SuccessSoft}" />
+    <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}" />
+    <SolidColorBrush x:Key="Brush.WarningSoft" Color="{StaticResource Color.WarningSoft}" />
+    <SolidColorBrush x:Key="Brush.Danger" Color="{StaticResource Color.Danger}" />
+    <SolidColorBrush x:Key="Brush.DangerSoft" Color="{StaticResource Color.DangerSoft}" />
+
+    <!-- Raios e espaçamentos recorrentes -->
+    <CornerRadius x:Key="Radius.Card">12</CornerRadius>
+    <CornerRadius x:Key="Radius.Control">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Table">10</CornerRadius>
+    <CornerRadius x:Key="Radius.Pill">100</CornerRadius>
+    <Thickness x:Key="Pad.Card">24</Thickness>
+
+</ResourceDictionary>
