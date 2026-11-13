@@ -19,10 +19,12 @@ namespace SistemaDeGestão
                 args.Handled = true;
             };
 
-            // Cria o banco (se ainda não existir) e aplica as migrations pendentes.
+            // Cria o banco (se ainda não existir), aplica as migrations pendentes
+            // e insere os dados de exemplo se o banco estiver vazio.
             using (var db = new Db())
             {
                 db.Database.Migrate();
+                DbSeeder.Popular(db);
             }
 
             base.OnStartup(e);
