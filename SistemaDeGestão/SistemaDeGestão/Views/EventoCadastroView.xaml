@@ -7,7 +7,7 @@
 
         <!-- Cabeçalho da página -->
         <DockPanel>
-            <c:StatusPill x:Name="RascunhoPill" DockPanel.Dock="Right" Kind="Neutral" Text="Rascunho salvo às 10:42"
+            <c:StatusPill x:Name="RascunhoPill" DockPanel.Dock="Right" Kind="Neutral" Text=""
                           Margin="24,0,0,0" />
             <StackPanel>
                 <Button Style="{StaticResource Button.Bare}" HorizontalAlignment="Left" Click="Voltar_Click">
@@ -26,15 +26,15 @@
                 <Border Style="{StaticResource Card}">
                     <c:SpacedStackPanel Spacing="20">
                         <c:SectionHeader Title="Resumo do evento" />
-                        <c:StatusPill x:Name="ResumoTipo" Kind="Info" Text="Conferência" />
+                        <c:StatusPill x:Name="ResumoTipo" Kind="Info" Text="" />
                         <TextBlock x:Name="ResumoTitulo" Style="{StaticResource Text.Base}" FontSize="19" LineHeight="27.55"
-                                   FontWeight="SemiBold" Text="Conecta 2026: futuros da educação" />
+                                   FontWeight="SemiBold" Text="" />
                         <TextBlock x:Name="ResumoPeriodo" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
-                                   Text="24–25 novembro de 2026" />
-                        <TextBlock x:Name="ResumoCapacidade" Style="{StaticResource Text.13}" Text="300 participantes · R$ 249,00" />
-                        <TextBlock x:Name="ResumoLocal" Style="{StaticResource Text.13}" Text="Centro de Convenções Aurora" />
-                        <TextBlock x:Name="ResumoPalestrantes" Style="{StaticResource Text.13}" Text="2 palestrantes selecionados" />
-                        <c:Notice x:Name="ResumoVagas" Text="82 vagas disponíveis. Este total é calculado a partir das inscrições confirmadas." />
+                                   Text="" />
+                        <TextBlock x:Name="ResumoCapacidade" Style="{StaticResource Text.13}" Text="" />
+                        <TextBlock x:Name="ResumoLocal" Style="{StaticResource Text.13}" Text="" />
+                        <TextBlock x:Name="ResumoPalestrantes" Style="{StaticResource Text.13}" Text="" />
+                        <c:Notice x:Name="ResumoVagas" Text="" />
                     </c:SpacedStackPanel>
                 </Border>
 
@@ -49,7 +49,7 @@
                     </c:SpacedStackPanel>
                 </Border>
 
-                <c:Notice x:Name="AvisoLocal" Text="A capacidade do evento não pode ultrapassar as 500 pessoas permitidas pelo local." />
+                <c:Notice x:Name="AvisoLocal" Text="" />
             </c:SpacedStackPanel>
 
             <!-- Formulário do evento -->
@@ -63,7 +63,7 @@
                                 <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <c:Field Grid.Column="0" Label="ID do evento">
-                                <TextBox x:Name="CampoId" Style="{StaticResource Input}" IsReadOnly="True" Text="EVT-001 · gerado automaticamente" />
+                                <TextBox x:Name="CampoId" Style="{StaticResource Input}" IsReadOnly="True" Text="" />
                             </c:Field>
                             <c:Field Grid.Column="2" Label="Tipo de evento *">
                                 <ComboBox x:Name="Tipo" Style="{StaticResource Select}" SelectedIndex="0" SelectionChanged="Tipo_Changed">
@@ -73,23 +73,23 @@
                             </c:Field>
                         </Grid>
                         <c:Field Label="Título *">
-                            <TextBox x:Name="Titulo" Style="{StaticResource Input}" Text="Conecta 2026: futuros da educação"
+                            <TextBox x:Name="Titulo" Style="{StaticResource Input}" Text=""
                                      TextChanged="Campo_Changed" />
                         </c:Field>
                         <c:Field Label="Descrição *">
                             <TextBox x:Name="Descricao" Style="{StaticResource Input.Multiline}"
-                                     Text="Uma conferência para educadores, pesquisadores e profissionais que acreditam no poder de aprender juntos. Novas práticas, experiências e conexões para uma educação mais humana." />
+                                     Text="" />
                         </c:Field>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <c:Field Grid.Column="0" Label="Data e hora de início *">
-                                <TextBox x:Name="DataInicio" Style="{StaticResource Input}" Text="24/11/2026  ·  09:00"
+                                <TextBox x:Name="DataInicio" Style="{StaticResource Input}" Text=""
                                          Tag="Ex.: 24/11/2026  ·  09:00" TextChanged="Campo_Changed" />
                             </c:Field>
                             <c:Field Grid.Column="2" Label="Data e hora de término *">
-                                <TextBox x:Name="DataFim" Style="{StaticResource Input}" Text="25/11/2026  ·  18:00"
+                                <TextBox x:Name="DataFim" Style="{StaticResource Input}" Text=""
                                          Tag="Ex.: 25/11/2026  ·  18:00" TextChanged="Campo_Changed" />
                             </c:Field>
                         </Grid>
@@ -98,10 +98,10 @@
                                 <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <c:Field Grid.Column="0" Label="Capacidade de participantes *">
-                                <TextBox x:Name="Capacidade" Style="{StaticResource Input}" Text="300" TextChanged="Campo_Changed" />
+                                <TextBox x:Name="Capacidade" Style="{StaticResource Input}" Text="" TextChanged="Campo_Changed" />
                             </c:Field>
                             <c:Field Grid.Column="2" Label="Preço da inscrição *">
-                                <TextBox x:Name="Preco" Style="{StaticResource Input}" Text="R$ 249,00" Tag="Ex.: R$ 249,00 ou Gratuito"
+                                <TextBox x:Name="Preco" Style="{StaticResource Input}" Text="" Tag="Ex.: R$ 249,00 ou Gratuito"
                                          TextChanged="Campo_Changed" />
                             </c:Field>
                         </Grid>
@@ -116,10 +116,10 @@
                                 <ColumnDefinition /><ColumnDefinition Width="16" /><ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <c:Field Grid.Column="0" Label="Tema *">
-                                <TextBox x:Name="Tema" Style="{StaticResource Input}" Text="Inovação e aprendizagem" />
+                                <TextBox x:Name="Tema" Style="{StaticResource Input}" Text="" />
                             </c:Field>
                             <c:Field Grid.Column="2" Label="Número de sessões *">
-                                <TextBox x:Name="Sessoes" Style="{StaticResource Input}" Text="8" />
+                                <TextBox x:Name="Sessoes" Style="{StaticResource Input}" Text="" />
                             </c:Field>
                         </Grid>
                     </c:SpacedStackPanel>

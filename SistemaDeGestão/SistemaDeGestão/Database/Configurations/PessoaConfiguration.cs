@@ -15,6 +15,7 @@ namespace SistemaDeGestão.Database.Configurations
             builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
             builder.Property(p => p.Cpf).HasMaxLength(14).IsRequired();
             builder.Property(p => p.Email).HasMaxLength(150).IsRequired();
+            builder.Property(p => p.SenhaHash).HasMaxLength(200);
 
             builder.HasIndex(p => p.Cpf).IsUnique();
             builder.HasIndex(p => p.Email).IsUnique();

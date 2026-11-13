@@ -20,6 +20,16 @@ public partial class EventoDetalhesView : UserControl
         _evento = Navigator.Parameter is int id ? _eventos.BuscarPorId(id) : null;
         if (_evento != null) Preencher(_evento);
         else Titulo.Text = "Evento não encontrado";
+        AplicarPerfil();
+    }
+
+    /// <summary>Só o organizador edita; o participante se inscreve; o palestrante apenas consulta.</summary>
+    private void AplicarPerfil()
+    {
+        var perfil = Sessao.Usuario!.Perfil;
+        if (perfil != Perfil.Organizador) BotaoEditar.Visibility = Visibility.Collapsed;
+        if (perfil == Perfil.Palestrante) BotaoInscrever.Visibility = Visibility.Collapsed;
+        if (perfil == Perfil.Participante) BotaoInscrever.Content = "Quero me inscrever";
     }
 
     private void Preencher(Evento e)

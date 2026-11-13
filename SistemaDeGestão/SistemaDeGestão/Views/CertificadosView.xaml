@@ -23,7 +23,7 @@
         <StackPanel Orientation="Horizontal">
             <c:StatusPill x:Name="ResumoEmitidos" Kind="Info" />
             <c:StatusPill x:Name="ResumoPendentes" Kind="Warning" Margin="12,0,0,0" />
-            <c:StatusPill x:Name="ResumoConcluidos" Kind="Neutral" Text="1 evento concluído" Margin="12,0,0,0" />
+            <c:StatusPill x:Name="ResumoConcluidos" Kind="Neutral" Text="" Margin="12,0,0,0" />
         </StackPanel>
 
         <!-- Emissões e prévia -->
@@ -31,7 +31,7 @@
             <!-- Gestão de emissões -->
             <c:SpacedStackPanel DockPanel.Dock="Left" Width="500" Margin="0,0,24,0" Spacing="20">
 
-                <Border Style="{StaticResource Card}">
+                <Border x:Name="CardEmissao" Style="{StaticResource Card}">
                     <c:SpacedStackPanel Spacing="20">
                         <c:SectionHeader Title="Emitir certificado" Subtitle="Escolha o evento e quem será reconhecido" />
                         <c:Field Label="Evento concluído *">
@@ -157,12 +157,12 @@
                                 <TextBlock x:Name="PreviaTexto" Style="{StaticResource Text.13}" Foreground="{StaticResource Brush.Muted}"
                                            TextAlignment="Center" Margin="40,12,40,0" />
                                 <StackPanel Width="240" Margin="0,20,0,0">
-                                    <TextBlock x:Name="PreviaAssinatura" Text="Luiza Costa" FontSize="17" FontStyle="Italic" Foreground="{StaticResource Brush.Ink}"
+                                    <TextBlock x:Name="PreviaAssinatura" Text="" FontSize="17" FontStyle="Italic" Foreground="{StaticResource Brush.Ink}"
                                                HorizontalAlignment="Center" />
                                     <Border Height="1" Width="200" Margin="0,6,0,0" Background="{StaticResource Brush.Border}" />
                                     <TextBlock x:Name="PreviaAssinaturaLegenda" Style="{StaticResource Text.Base}" FontSize="10.5" LineHeight="15"
                                                Foreground="{StaticResource Brush.Muted}" TextAlignment="Center" Margin="0,6,0,0"
-                                               Text="Luiza Costa · Organização" />
+                                               Text="" />
                                 </StackPanel>
                             </StackPanel>
                         </DockPanel>

@@ -1,0 +1,154 @@
+<Window x:Class="SistemaDeGestão.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:c="clr-namespace:SistemaDeGestão.Controls"
+        Title="elo · Entrar"
+        Width="560" Height="820" MinWidth="480" MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Brush.Page}"
+        FontFamily="{StaticResource Font.Inter}"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Ideal">
+
+    <Window.Resources>
+        <!-- Campo de senha com o mesmo visual do estilo "Input" -->
+        <Style x:Key="Input.Senha" TargetType="PasswordBox">
+            <Setter Property="FontFamily" Value="{StaticResource Font.Inter}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="{StaticResource Brush.Ink}" />
+            <Setter Property="Background" Value="{StaticResource Brush.Surface}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Brush.Border}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="Padding" Value="10,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="CaretBrush" Value="{StaticResource Brush.Ink}" />
+            <Setter Property="SelectionBrush" Value="{StaticResource Brush.Brand}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border x:Name="Chrome" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{StaticResource Radius.Control}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" Focusable="False"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="#C9D6D9" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource Brush.Brand}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <c:SpacedStackPanel Spacing="24" Width="420" Margin="0,40">
+
+            <!-- Marca -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Border Width="40" Height="40" CornerRadius="12" Background="{StaticResource Brush.Brand}">
+                    <svgc:SvgViewbox Source="/Assets/Icons/calendar-days.svg" Width="24" Height="24" />
+                </Border>
+                <TextBlock Text="elo" Margin="12,0,0,0" FontSize="32" FontWeight="SemiBold"
+                           Foreground="{StaticResource Brush.Ink}" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- ===== Entrar ===== -->
+            <Border x:Name="PainelEntrar" Style="{StaticResource Card}" Padding="32">
+                <c:SpacedStackPanel Spacing="20">
+                    <c:SectionHeader Title="Entrar" Subtitle="Acesse com o e-mail e a senha da sua conta" />
+                    <c:Field Label="E-mail">
+                        <TextBox x:Name="EntrarEmail" Style="{StaticResource Input}" Tag="seu@email.com" />
+                    </c:Field>
+                    <c:Field Label="Senha">
+                        <PasswordBox x:Name="EntrarSenha" Style="{StaticResource Input.Senha}" />
+                    </c:Field>
+                    <TextBlock x:Name="EntrarErro" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.Danger}"
+                               TextWrapping="Wrap" Visibility="Collapsed" />
+                    <Button x:Name="BotaoEntrar" Style="{StaticResource Button.Primary}" Content="Entrar"
+                            HorizontalContentAlignment="Center" IsDefault="True" Click="Entrar_Click" />
+                    <TextBlock Style="{StaticResource Text.12}" HorizontalAlignment="Center">
+                        <Run Text="Ainda não tem conta?" />
+                        <Hyperlink Foreground="{StaticResource Brush.Brand}" Click="IrParaCadastro_Click">Criar conta</Hyperlink>
+                    </TextBlock>
+                </c:SpacedStackPanel>
+            </Border>
+
+            <!-- ===== Criar conta ===== -->
+            <Border x:Name="PainelCadastro" Style="{StaticResource Card}" Padding="32" Visibility="Collapsed">
+                <c:SpacedStackPanel Spacing="16">
+                    <c:SectionHeader Title="Criar conta" Subtitle="Escolha o tipo de conta e preencha seus dados" />
+
+                    <c:Field Label="Tipo de conta *">
+                        <ComboBox x:Name="CadTipo" Style="{StaticResource Select}" SelectedIndex="0" SelectionChanged="Tipo_Changed">
+                            <ComboBoxItem Content="Participante" />
+                            <ComboBoxItem Content="Palestrante" />
+                            <ComboBoxItem Content="Organizador · Pessoa física" />
+                            <ComboBoxItem Content="Organizador · Pessoa jurídica" />
+                        </ComboBox>
+                    </c:Field>
+
+                    <c:Field Label="Nome completo *">
+                        <TextBox x:Name="CadNome" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field Label="E-mail *">
+                        <TextBox x:Name="CadEmail" Style="{StaticResource Input}" Tag="seu@email.com" />
+                    </c:Field>
+
+                    <c:Field x:Name="CampoCpf" Label="CPF *">
+                        <TextBox x:Name="CadCpf" Style="{StaticResource Input}" Tag="000.000.000-00" />
+                    </c:Field>
+                    <c:Field x:Name="CampoInstituicao" Label="Instituição">
+                        <TextBox x:Name="CadInstituicao" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field x:Name="CampoEspecialidade" Label="Especialidade *">
+                        <TextBox x:Name="CadEspecialidade" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field x:Name="CampoBio" Label="Minibiografia *">
+                        <TextBox x:Name="CadBio" Style="{StaticResource Input.Multiline}" />
+                    </c:Field>
+                    <c:Field x:Name="CampoRazao" Label="Razão social *">
+                        <TextBox x:Name="CadRazao" Style="{StaticResource Input}" />
+                    </c:Field>
+                    <c:Field x:Name="CampoCnpj" Label="CNPJ *">
+                        <TextBox x:Name="CadCnpj" Style="{StaticResource Input}" Tag="00.000.000/0000-00" />
+                    </c:Field>
+                    <c:Field x:Name="CampoTelefone" Label="Telefone">
+                        <TextBox x:Name="CadTelefone" Style="{StaticResource Input}" Tag="(00) 00000-0000" />
+                    </c:Field>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition /><ColumnDefinition Width="12" /><ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <c:Field Grid.Column="0" Label="Senha *">
+                            <PasswordBox x:Name="CadSenha" Style="{StaticResource Input.Senha}" />
+                        </c:Field>
+                        <c:Field Grid.Column="2" Label="Confirmar senha *">
+                            <PasswordBox x:Name="CadConfirmacao" Style="{StaticResource Input.Senha}" />
+                        </c:Field>
+                    </Grid>
+                    <TextBlock Style="{StaticResource Text.11}" Text="A senha deve ter pelo menos 6 caracteres." />
+
+                    <TextBlock x:Name="CadErro" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.Danger}"
+                               TextWrapping="Wrap" Visibility="Collapsed" />
+                    <Button x:Name="BotaoCriar" Style="{StaticResource Button.Primary}" Content="Criar conta e entrar"
+                            HorizontalContentAlignment="Center" Click="Criar_Click" />
+                    <TextBlock Style="{StaticResource Text.12}" HorizontalAlignment="Center">
+                        <Run Text="Já tem conta?" />
+                        <Hyperlink Foreground="{StaticResource Brush.Brand}" Click="IrParaEntrar_Click">Entrar</Hyperlink>
+                    </TextBlock>
+                </c:SpacedStackPanel>
+            </Border>
+        </c:SpacedStackPanel>
+    </ScrollViewer>
+</Window>

@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SistemaDeGestão.Controller;
 using SistemaDeGestão.Controls;
+using SistemaDeGestão.Services;
 using SistemaDeGestão.ViewModels;
 using Microsoft.Win32;
 
@@ -23,6 +24,8 @@ public partial class CertificadosView : UserControl
     {
         InitializeComponent();
         CarregarSelo();
+        // Só o organizador emite; participantes e palestrantes consultam e baixam os próprios certificados.
+        if (!Sessao.EhOrganizador) CardEmissao.Visibility = Visibility.Collapsed;
         _pronto = true;
         Recarregar();
         Lista.SelectedIndex = 0;
@@ -44,7 +47,10 @@ public partial class CertificadosView : UserControl
     /// <summary>Busca os certificados de novo e refaz eventos, lista e resumo.</summary>
     private void Recarregar(int? selecionarId = null)
     {
-        _todos = _certificados.Listar().Select(c => new CertificadoItem(c)).ToList();
+        _todos = _certificados.Listar()
+            .Where(c => Sessao.EhOrganizador || c.PessoaId == Sessao.Usuario!.Id)
+            .Select(c => new CertificadoItem(c))
+            .ToList();
 
         var eventos = _todos
             .Select(c => c.Modelo.Evento)
@@ -163,8 +169,8 @@ public partial class CertificadosView : UserControl
     private void Emitir_Click(object sender, RoutedEventArgs e)
     {
         if (CampoDestinatario.SelectedItem is not CertificadoItem { Emitido: false } c) return;
-        _certificados.Emitir(c.Modelo.PessoaId, c.Modelo.EventoId);
-        Recarregar(c.Modelo.Id);
+        var emitido = _certificados.Emitir(c.Modelo.PessoaId, c.Modelo.EventoId);
+        Recarregar(emitido.Id);
     }
 
     private void Baixar_Click(object sender, RoutedEventArgs e)

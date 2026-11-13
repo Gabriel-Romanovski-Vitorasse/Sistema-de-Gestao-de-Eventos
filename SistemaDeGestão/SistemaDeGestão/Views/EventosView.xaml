@@ -8,7 +8,7 @@
 
         <!-- Cabeçalho da página -->
         <DockPanel>
-            <Button DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Criar evento"
+            <Button x:Name="BotaoCriar" DockPanel.Dock="Right" Style="{StaticResource Button.Primary}" Content="+ Criar evento"
                     VerticalAlignment="Center" Margin="24,0,0,0" Click="CriarEvento_Click" />
             <StackPanel>
                 <TextBlock Style="{StaticResource Text.PageTitle}" Text="Encontros que conectam." />
@@ -25,10 +25,10 @@
                 <ColumnDefinition /><ColumnDefinition Width="16" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <c:StatCard x:Name="StatEventos" Grid.Column="0" Label="Eventos cadastrados" Value="06" Caption="3 conferências · 3 workshops" />
-            <c:StatCard x:Name="StatConfirmadas" Grid.Column="2" Label="Inscrições confirmadas" Value="476" Caption="Em todos os eventos" />
-            <c:StatCard x:Name="StatVagas" Grid.Column="4" Label="Vagas disponíveis" Value="118" Caption="Próximas experiências" />
-            <c:StatCard x:Name="StatReceita" Grid.Column="6" Label="Receita confirmada" Value="R$ 62.922" Caption="Valores de inscrições pagas" />
+            <c:StatCard x:Name="StatEventos" Grid.Column="0" Label="Eventos cadastrados" Value="" Caption="" />
+            <c:StatCard x:Name="StatConfirmadas" Grid.Column="2" Label="Inscrições confirmadas" Value="" Caption="Em todos os eventos" />
+            <c:StatCard x:Name="StatVagas" Grid.Column="4" Label="Vagas disponíveis" Value="" Caption="Próximas experiências" />
+            <c:StatCard x:Name="StatReceita" Grid.Column="6" Label="Receita confirmada" Value="" Caption="Valores de inscrições pagas" />
         </Grid>
 
         <!-- Próximo encontro -->
@@ -46,11 +46,11 @@
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" Margin="24,0,0,0">
                         <TextBlock x:Name="DestaqueData" Style="{StaticResource Text.11}" FontWeight="SemiBold" Foreground="{StaticResource Brush.BrandOnDark}"
-                                   Text="PRÓXIMO ENCONTRO · 24 NOVEMBRO" />
+                                   Text="" />
                         <TextBlock x:Name="DestaqueTitulo" Style="{StaticResource Text.Base}" FontSize="20" LineHeight="29" FontWeight="SemiBold"
-                                   Foreground="White" Margin="0,5,0,0" Text="Conecta 2026: futuros da educação" />
+                                   Foreground="White" Margin="0,5,0,0" Text="" />
                         <TextBlock x:Name="DestaqueTexto" Style="{StaticResource Text.12}" Foreground="{StaticResource Brush.BrandOnDarkMuted}" Margin="0,5,0,0"
-                                   Text="218 pessoas já confirmaram presença. Vamos preparar um grande encontro?" />
+                                   Text="" />
                     </StackPanel>
                 </DockPanel>
             </Border>

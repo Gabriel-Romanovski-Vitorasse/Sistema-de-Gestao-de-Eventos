@@ -18,7 +18,7 @@
 
         <!-- Resumo -->
         <StackPanel Orientation="Horizontal">
-            <c:StatusPill x:Name="ResumoTotal" Kind="Info" Text="18 palestrantes" />
+            <c:StatusPill x:Name="ResumoTotal" Kind="Info" Text="" />
             <c:StatusPill x:Name="ResumoEspecialidades" Kind="Neutral" Text="8 especialidades" Margin="12,0,0,0" />
             <c:StatusPill x:Name="ResumoCertificados" Kind="Success" Text="5 certificados emitidos" Margin="12,0,0,0" />
         </StackPanel>
@@ -59,7 +59,7 @@
                 </Border>
 
                 <c:Notice x:Name="AvisoVinculo"
-                          Text="Marina está vinculada ao Conecta 2026. A minibiografia será exibida nos detalhes do evento." />
+                          Text="" />
             </c:SpacedStackPanel>
 
             <!-- Diretório -->

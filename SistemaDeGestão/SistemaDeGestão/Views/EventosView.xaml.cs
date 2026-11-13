@@ -20,7 +20,12 @@ public partial class EventosView : UserControl
     public EventosView()
     {
         InitializeComponent();
-        _todos = _eventos.Listar().Select(e => new EventoItem(e)).ToList();
+        // Participantes e palestrantes não veem rascunhos nem o botão de criar evento.
+        _todos = _eventos.Listar()
+            .Where(e => Sessao.EhOrganizador || e.Status != StatusEvento.Rascunho)
+            .Select(e => new EventoItem(e))
+            .ToList();
+        if (!Sessao.EhOrganizador) BotaoCriar.Visibility = Visibility.Collapsed;
         _destaque = ProximoEvento(_todos);
 
         PreencherIndicadores();
@@ -45,15 +50,38 @@ public partial class EventosView : UserControl
         StatEventos.Caption = $"{Formato.Plural(conferencias, "conferência", "conferências")} · " +
                               $"{Formato.Plural(_todos.Count - conferencias, "workshop", "workshops")}";
 
-        StatConfirmadas.Value = _inscricoes.ObterIndicadores().Confirmadas.ToString();
-
         StatVagas.Value = _todos.Select(e => e.Modelo)
             .Where(e => e.Status != StatusEvento.Encerrado)
             .Sum(e => e.VagasDisponiveis())
             .ToString();
 
-        decimal receita = _inscricoes.RelatorioFinanceiro().Sum(r => r.ValorArrecadado);
-        StatReceita.Value = receita.ToString("C0", Formato.PtBr);
+        var usuario = Sessao.Usuario!;
+        switch (usuario.Perfil)
+        {
+            case Perfil.Organizador:
+                StatConfirmadas.Value = _inscricoes.ObterIndicadores().Confirmadas.ToString();
+                decimal receita = _inscricoes.RelatorioFinanceiro().Sum(r => r.ValorArrecadado);
+                StatReceita.Value = receita.ToString("C0", Formato.PtBr);
+                return;
+
+            case Perfil.Participante:
+                StatConfirmadas.Label = "Minhas inscrições";
+                StatConfirmadas.Value = _todos.Sum(e => e.Modelo.Inscricoes.Count(i =>
+                    i.ParticipanteId == usuario.Id && i.Status != StatusInscricao.Cancelada)).ToString();
+                StatConfirmadas.Caption = "Confirmadas e pendentes";
+                break;
+
+            case Perfil.Palestrante:
+                StatConfirmadas.Label = "Minhas palestras";
+                StatConfirmadas.Value = _todos.Count(e => e.Modelo.Palestrantes.Any(p => p.Id == usuario.Id)).ToString();
+                StatConfirmadas.Caption = "Eventos em que você palestra";
+                break;
+        }
+
+        StatReceita.Label = "Meus certificados";
+        StatReceita.Value = new CertificadoController().Listar()
+            .Count(c => c.PessoaId == usuario.Id && c.Emitido).ToString();
+        StatReceita.Caption = "Certificados já emitidos";
     }
 
     private void PreencherDestaque()

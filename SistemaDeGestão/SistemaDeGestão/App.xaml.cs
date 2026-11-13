@@ -11,11 +11,18 @@ namespace SistemaDeGestão
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            // Aplica as migrations pendentes e insere os dados de exemplo se o banco estiver vazio.
+            // Regras de negócio violadas nos controllers viram um aviso na tela em vez de fechar o programa.
+            DispatcherUnhandledException += (_, args) =>
+            {
+                if (args.Exception is not InvalidOperationException erro) return;
+                MessageBox.Show(erro.Message, "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                args.Handled = true;
+            };
+
+            // Cria o banco (se ainda não existir) e aplica as migrations pendentes.
             using (var db = new Db())
             {
                 db.Database.Migrate();
-                DbSeeder.Popular(db);
             }
 
             base.OnStartup(e);

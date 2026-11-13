@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SistemaDeGestão.Controller;
 using SistemaDeGestão.Controls;
+using SistemaDeGestão.Model.Relatorios;
 using SistemaDeGestão.Services;
 using SistemaDeGestão.ViewModels;
 
@@ -24,7 +25,11 @@ public partial class InscricoesView : UserControl
     public InscricoesView()
     {
         InitializeComponent();
-        _opcoesParticipantes = _participantes.Listar().Select(p => new ParticipanteOpcao(p)).ToList();
+        // O participante só vê e cria as próprias inscrições.
+        _opcoesParticipantes = _participantes.Listar()
+            .Where(p => Sessao.EhOrganizador || p.Id == Sessao.Usuario!.Id)
+            .Select(p => new ParticipanteOpcao(p))
+            .ToList();
         _opcoesEventos = _eventos.Listar().Select(e => new EventoOpcao(e)).ToList();
         CampoParticipante.ItemsSource = _opcoesParticipantes;
         CampoEvento.ItemsSource = _opcoesEventos;
@@ -40,14 +45,24 @@ public partial class InscricoesView : UserControl
     /// <summary>Busca as inscrições e os indicadores de novo (após pagar, cancelar ou inscrever).</summary>
     private void Recarregar(int? selecionarId = null)
     {
-        _todas = _inscricoes.Listar().Select(i => new InscricaoItem(i)).ToList();
+        _todas = _inscricoes.Listar()
+            .Where(i => Sessao.EhOrganizador || i.ParticipanteId == Sessao.Usuario!.Id)
+            .Select(i => new InscricaoItem(i))
+            .ToList();
         AtualizarIndicadores();
         Atualizar(selecionarId);
     }
 
     private void AtualizarIndicadores()
     {
-        var ind = _inscricoes.ObterIndicadores();
+        // Organizador: indicadores gerais (SQL). Participante: calculados só com as inscrições dele.
+        var ind = Sessao.EhOrganizador
+            ? _inscricoes.ObterIndicadores()
+            : new IndicadoresInscricoes(
+                _todas.Count(i => i.Status == "Confirmada"),
+                _todas.Count(i => i.Status == "Pendente"),
+                _todas.Count(i => i.Status == "Cancelada"),
+                _todas.Where(i => i.Status == "Pendente").Sum(i => i.Valor));
         IndConfirmadas.Value = ind.Confirmadas.ToString("00");
         IndPendentes.Value = ind.Pendentes.ToString("00");
         IndPendentes.Caption = $"{ind.ValorEmAberto.ToString("C2", Formato.PtBr)} em aberto";
@@ -127,7 +142,8 @@ public partial class InscricoesView : UserControl
         CampoEvento.SelectedItem = _opcoesEventos.FirstOrDefault(e => e.Id == eventoId) ?? _opcoesEventos.FirstOrDefault();
         CampoData.Text = DateTime.Today.ToString("dd/MM/yyyy");
         CampoStatus.Text = "Pendente";
-        CampoParticipante.IsEnabled = CampoEvento.IsEnabled = true;
+        CampoParticipante.IsEnabled = Sessao.EhOrganizador;
+        CampoEvento.IsEnabled = true;
         CampoForma.IsEnabled = false;
         BotaoCancelar.IsEnabled = false;
         AvisoPagamento.Text = "A inscrição começa como Pendente. Depois, confirme o pagamento para garantir a vaga.";
